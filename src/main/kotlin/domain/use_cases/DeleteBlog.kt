@@ -1,11 +1,10 @@
 package domain.use_cases
 
-import java.util.concurrent.Callable
-
-class DeleteBlog: Callable<DeleteBlogResponse> {
-    override fun call(): DeleteBlogResponse {
+class DeleteBlog {
+    fun handle(deleteBlogCommand: DeleteBlogCommand): DeleteBlogResponse {
         TODO("Not yet implemented")
     }
 }
 
+class DeleteBlogCommand
 class DeleteBlogResponse

@@ -1,11 +1,10 @@
 package domain.use_cases
 
-import java.util.concurrent.Callable
-
-class AddBlog: Callable<AddBlogResponse> {
-    override fun call(): AddBlogResponse {
+class AddBlog {
+    fun handle(addBlogCommand: AddBlogCommand): AddBlogResponse {
         TODO("Not yet implemented")
     }
 }
 
+class AddBlogCommand
 class AddBlogResponse
