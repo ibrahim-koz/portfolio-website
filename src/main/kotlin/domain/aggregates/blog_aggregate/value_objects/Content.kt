@@ -1,4 +1,3 @@
 package domain.aggregates.blog_aggregate.value_objects
 
-class Content {
-}
+class Content(val contentElements: Collection<ContentElement>)
