@@ -2,6 +2,7 @@ package domain.aggregates.tag_aggregate.entities
 
 import model.IEntity
 import model.Id
+import domain.aggregates.tag_aggregate.value_objects.Name
 
-class Tag(override val id: Id, val blogIds: Collection<Id>) : IEntity {
+class Tag(override val id: Id, val name: Name, val blogIds: Collection<Id>) : IEntity {
 }

@@ -1,4 +1,4 @@
 package domain.aggregates.blog_aggregate.value_objects
 
-class Title(val value: String) {
+class Path(val value: String) {
 }
