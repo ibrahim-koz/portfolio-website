@@ -7,14 +7,14 @@ import utils.IdGenerator
 
 class TagBuilder(private val idGenerator: IdGenerator) {
     private lateinit var name: Name
-    private lateinit var blogIds: MutableList<Id>
+    private var blogIds: MutableList<Id> = mutableListOf()
     fun named(name: Name): TagBuilder {
         this.name = name
         return this
     }
 
     fun attachedTo(blogId: Id): TagBuilder {
-        blogIds = mutableListOf(blogId)
+        blogIds.add(blogId)
         return this
     }
 

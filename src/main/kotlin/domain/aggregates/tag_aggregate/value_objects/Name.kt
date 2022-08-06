@@ -1,4 +1,3 @@
 package domain.aggregates.tag_aggregate.value_objects
 
-class Name(value: String) {
-}
+class Name(private val value: String)

@@ -1,4 +1,3 @@
 package model
 
-class Id {
-}
+class Id(private val value: Int)

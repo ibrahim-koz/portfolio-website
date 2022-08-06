@@ -2,6 +2,8 @@ package domain.use_cases
 
 import com.beust.klaxon.Klaxon
 import domain.factories.*
+import infrastructure.MockBlogRepository
+import infrastructure.MockTagRepository
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import utils.IdGenerator
@@ -9,11 +11,12 @@ import utils.TimeUtilityService
 
 internal class AddBlogTest {
     private val addBlogFactory = AddBlogFactory(Klaxon())
-//    private val addBlog = AddBlog(
-//        BlogAggregateFactory(IdGenerator(), TimeUtilityService()),
-//        TagAggregateFactory(IdGenerator()),
-//
-//    )
+    private val addBlog = AddBlog(
+        BlogAggregateFactory(IdGenerator(), TimeUtilityService()),
+        TagAggregateFactory(IdGenerator()),
+        MockBlogRepository(),
+        MockTagRepository()
+    )
     @Test
     internal fun `should parse the given payload properly`() {
         val addBlogCommand = addBlogFactory.anAddBlogCommand(
@@ -76,7 +79,7 @@ internal class AddBlogTest {
             """
         )
 
-//        val addBlogResponse = addBlog.handle(addBlogCommand)
-//        assertNull(addBlogResponse.error)
+        val addBlogResponse = addBlog.handle(addBlogCommand)
+        assertNull(addBlogResponse.error)
     }
 }
