@@ -17,11 +17,12 @@ class AddBlog(
     private val tagRepository: ITagRepository
 ) {
     fun handle(addBlogCommand: AddBlogCommand): AddBlogResponse {
-        try {// create the corresponding objects from command
-            // locate already existing tags
+        try {
+
+            // tagFieldlari ayirma isini sevmedim
+
             val (existentTagsFields, absentTagsFields) = locateExistentAndAbsentTagsFields(addBlogCommand.tags)
 
-            // create missing tags
 
             val existentTags = existentTagsFields.map { tagRepository.get(tagAggregateFactory.aName(it.name)) }
             val absentTags = absentTagsFields.toTags()
@@ -38,12 +39,12 @@ class AddBlog(
                 }
             }
 
-            // execute the following specification
             require(tags.all {
                 BlogAndTagMustBeAssociatedSpecification().isSatisfiedBy(blog, it)
             })
-            // persist both new blog and tags, update the already existing tags
-            tags.forEach { tagRepository.add(it) }
+
+
+            tagRepository.addAll(tags)
             blogRepository.add(blog)
             return AddBlogResponse(null)
         } catch (e: Exception) {

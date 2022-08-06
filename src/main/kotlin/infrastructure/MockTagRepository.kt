@@ -17,6 +17,8 @@ class MockTagRepository : ITagRepository {
         items[tag.id] = tag
     }
 
+    override fun addAll(tags: Collection<Tag>) = items.putAll(tags.associateBy { it.id })
+
     override fun remove(tag: Tag) {
         requireNotNull(items[tag.id])
         items.remove(tag.id)

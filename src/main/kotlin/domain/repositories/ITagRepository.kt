@@ -11,6 +11,8 @@ interface ITagRepository {
 
     fun add(tag: Tag)
 
+    fun addAll(tags: Collection<Tag>)
+
     fun remove(tag: Tag)
 
     fun update(tag: Tag)
