@@ -2,11 +2,13 @@ package domain.factories
 
 import com.beust.klaxon.Klaxon
 
+
+
 class AddBlogFactory(
     private val klaxon: Klaxon
 ) {
-    fun anAddBlogCommand(payload: String): AddBlogCommand {
-        return requireNotNull(klaxon.parse<AddBlogCommand>(payload))
+    fun anAddBlogCommand(string: String): AddBlogCommand {
+        return requireNotNull(klaxon.parse<AddBlogCommand>(string))
     }
 }
 

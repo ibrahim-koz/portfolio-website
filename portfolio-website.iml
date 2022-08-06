@@ -28,5 +28,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="beust.klaxon" level="project" />
+    <orderEntry type="library" name="jetbrains.kotlin.reflect" level="project" />
   </component>
 </module>
