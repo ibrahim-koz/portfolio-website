@@ -23,4 +23,4 @@ data class ContentElementField(
 
 data class AddBlogCommand(val title: String, val content: Collection<ContentElementField>, val tags: Collection<TagField>)
 
-class AddBlogResponse(val error: String?)
+class AddBlogResponse(val error: String? = null)

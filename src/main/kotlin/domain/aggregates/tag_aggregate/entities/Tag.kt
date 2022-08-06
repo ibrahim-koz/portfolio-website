@@ -5,4 +5,5 @@ import model.Id
 import domain.aggregates.tag_aggregate.value_objects.Name
 
 class Tag(override val id: Id, val name: Name, var blogIds: Collection<Id>) : IEntity {
+    fun isAttachedToBlog(blogId: Id): Boolean = blogIds.contains(blogId)
 }

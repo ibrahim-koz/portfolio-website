@@ -39,14 +39,16 @@ class AddBlog(
                 }
             }
 
+
+
             require(tags.all {
                 BlogAndTagMustBeAssociatedSpecification().isSatisfiedBy(blog, it)
             })
 
 
-            tagRepository.addAll(tags)
             blogRepository.add(blog)
-            return AddBlogResponse(null)
+            tagRepository.addAll(tags)
+            return AddBlogResponse()
         } catch (e: Exception) {
             return AddBlogResponse(e.message)
         }
