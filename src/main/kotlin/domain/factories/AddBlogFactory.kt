@@ -2,10 +2,15 @@ package domain.factories
 
 import com.beust.klaxon.Klaxon
 import domain.aggregates.blog_aggregate.value_objects.Content
+import domain.aggregates.blog_aggregate.value_objects.ContentElement
+import domain.aggregates.blog_aggregate.value_objects.TextElement
 import domain.aggregates.blog_aggregate.value_objects.Title
 import domain.aggregates.tag_aggregate.value_objects.Name
 import domain.factories.builders.TagBuilder
-
+import utils.createInstance
+import utils.getValue
+import utils.nonNullFieldsOf
+import utils.setValue
 
 class AddBlogFactory(
     private val klaxon: Klaxon
@@ -38,7 +43,20 @@ data class AddBlogCommand(
     // That way, through reflection we can create the class instance automatically.
     // The other benefit is that whenever in future two types happen to share the exact same format, it obviates
     // the problem of writing awkward rules to specify what to create.
-//    fun content(): Content = Content().apply { addContentElement(contentElement) }
+    fun content(): Content =
+        Content().apply { addContentElements(contentElements()) }
+
+
+    private fun contentElements(): Collection<ContentElement> =
+        content.map {
+            val contentElement =
+                createInstance("domain.aggregates.blog_aggregate.value_objects.${it.type.replaceFirstChar { firstChar -> firstChar.uppercase() }}") as ContentElement
+            val nonNullFields = nonNullFieldsOf(contentElement)
+            nonNullFields.forEach { nonNullField ->
+                setValue(contentElement, nonNullField, getValue(it, nonNullField))
+            }
+            contentElement
+        }
 }
 
 // We're going to encapsulate all the functionality into data class.

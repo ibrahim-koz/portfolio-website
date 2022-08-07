@@ -60,6 +60,38 @@ internal class AddBlogTest {
     }
 
     @Test
+    internal fun `should create proper value objects from the payload`() {
+        val addBlogCommand = addBlogFactory.anAddBlogCommand(
+            """
+            {
+                "title": "Cool Title",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Cool Text",
+                        "style": "body"
+                    },
+                    {
+                        "type": "image"
+                        "imagePath": "cool_path", 
+                        "caption": "Cool Picture"
+                    }
+                ],
+                "tags": [
+                    {
+                        "name": "Cool Tag"
+                    }
+                ]
+            }
+            """
+        )
+
+
+        addBlogCommand.content()
+        println("anan")
+    }
+
+    @Test
     internal fun `should create a new blog`() {
         val addBlogCommand = addBlogFactory.anAddBlogCommand(
             """
@@ -67,10 +99,12 @@ internal class AddBlogTest {
                 "title": "Cool Title",
                 "content": [
                     {
+                        "type": "text",
                         "text": "Cool Text",
                         "style": "body"
                     },
                     {
+                        "type": "image"
                         "imagePath": "cool_path", 
                         "caption": "Cool Picture"
                     }
