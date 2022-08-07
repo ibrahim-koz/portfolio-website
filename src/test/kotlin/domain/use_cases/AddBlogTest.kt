@@ -34,7 +34,7 @@ internal class AddBlogTest {
                     },
                     {
                         "type": "image"
-                        "imagePath": "cool_path", 
+                        "path": "cool_path", 
                         "caption": "Cool Picture"
                     }
                 ],
@@ -51,7 +51,7 @@ internal class AddBlogTest {
             "Cool Title",
             listOf(
                 ContentElementField(type = "text", text = "Cool Text", style = "body"),
-                ContentElementField(type = "image", imagePath = "cool_path", caption = "Cool Picture")
+                ContentElementField(type = "image", path = "cool_path", caption = "Cool Picture")
             ),
             listOf(TagField("Cool Tag"))
         )
@@ -73,7 +73,7 @@ internal class AddBlogTest {
                     },
                     {
                         "type": "image"
-                        "imagePath": "cool_path", 
+                        "path": "cool_path", 
                         "caption": "Cool Picture"
                     }
                 ],
@@ -87,7 +87,7 @@ internal class AddBlogTest {
         )
 
 
-        addBlogCommand.content()
+        val content = addBlogCommand.content()
         println("anan")
     }
 
@@ -105,7 +105,7 @@ internal class AddBlogTest {
                     },
                     {
                         "type": "image"
-                        "imagePath": "cool_path", 
+                        "path": "cool_path", 
                         "caption": "Cool Picture"
                     }
                 ],

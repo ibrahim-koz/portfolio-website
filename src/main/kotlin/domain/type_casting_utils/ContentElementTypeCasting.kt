@@ -6,4 +6,4 @@ fun isTextElement(contentElementField: ContentElementField) =
     contentElementField.text != null && contentElementField.style != null
 
 fun isImageElement(contentElementField: ContentElementField) =
-    contentElementField.imagePath != null && contentElementField.caption != null
+    contentElementField.path != null && contentElementField.caption != null

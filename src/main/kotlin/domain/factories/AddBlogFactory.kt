@@ -7,10 +7,8 @@ import domain.aggregates.blog_aggregate.value_objects.TextElement
 import domain.aggregates.blog_aggregate.value_objects.Title
 import domain.aggregates.tag_aggregate.value_objects.Name
 import domain.factories.builders.TagBuilder
-import utils.createInstance
-import utils.getValue
-import utils.nonNullFieldsOf
-import utils.setValue
+
+import utils.*
 
 class AddBlogFactory(
     private val klaxon: Klaxon
@@ -23,10 +21,10 @@ class AddBlogFactory(
 data class TagField(val name: String)
 
 data class ContentElementField(
-    val type: String,
+    var type: String,
     val text: String? = null,
     val style: String? = null,
-    val imagePath: String? = null,
+    val path: String? = null,
     val caption: String? = null
 )
 
@@ -49,14 +47,20 @@ data class AddBlogCommand(
 
     private fun contentElements(): Collection<ContentElement> =
         content.map {
-            val contentElement =
-                createInstance("domain.aggregates.blog_aggregate.value_objects.${it.type.replaceFirstChar { firstChar -> firstChar.uppercase() }}") as ContentElement
-            val nonNullFields = nonNullFieldsOf(contentElement)
-            nonNullFields.forEach { nonNullField ->
-                setValue(contentElement, nonNullField, getValue(it, nonNullField))
-            }
+            it.type += "Element"
+            val fields = fieldsOf(it).filterNot { field -> field == "type" }
+            val fieldsToValues = fields.associateWith { field -> getValue(it, field) }.filterNotNullValues()
+            val valueObjects = fieldsToValues.map { (field, value) -> createInstance(getClassPath(field), value) }
+
+            val contentElement = createInstance(
+                getClassPath(it.type),
+                *valueObjects.toTypedArray()
+            ) as ContentElement
             contentElement
         }
+
+    private fun getClassPath(type: String) =
+        "domain.aggregates.blog_aggregate.value_objects.${type.replaceFirstChar { firstChar -> firstChar.uppercase() }}"
 }
 
 // We're going to encapsulate all the functionality into data class.
