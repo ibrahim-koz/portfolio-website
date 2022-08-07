@@ -1,4 +1,3 @@
 package domain.aggregates.blog_aggregate.value_objects
 
-class Popularity {
-}
+class Popularity(private val value: Int)

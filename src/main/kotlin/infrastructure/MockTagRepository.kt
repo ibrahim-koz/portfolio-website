@@ -31,5 +31,5 @@ class MockTagRepository : ITagRepository {
 
     override fun contains(id: Id): Boolean = items.contains(id)
 
-    override fun contains(name: Name): Boolean = items.filterValues { it.name == name }.isNotEmpty()
+    override fun contains(name: Name): Boolean = items.values.map { it.name }.contains(name)
 }

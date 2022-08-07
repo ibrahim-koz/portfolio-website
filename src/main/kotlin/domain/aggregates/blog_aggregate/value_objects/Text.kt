@@ -1,4 +1,3 @@
 package domain.aggregates.blog_aggregate.value_objects
 
-class Text(value: String) {
-}
+data class Text(private val value: String)

@@ -8,8 +8,4 @@ class TagAggregateFactory(private val idGenerator: IdGenerator) {
     fun aTag(): TagBuilder {
         return TagBuilder(idGenerator)
     }
-
-    fun aName(value: String): Name {
-        return Name(value)
-    }
 }

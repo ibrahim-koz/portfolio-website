@@ -19,6 +19,6 @@ class TagBuilder(private val idGenerator: IdGenerator) {
     }
 
     fun created(): Tag {
-        return Tag(idGenerator.generate(), name, blogIds)
+        return Tag(idGenerator.generate(), name)
     }
 }

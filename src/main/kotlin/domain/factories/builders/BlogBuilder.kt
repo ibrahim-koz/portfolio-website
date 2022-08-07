@@ -18,8 +18,8 @@ class BlogBuilder(private val idGenerator: IdGenerator, private val timeUtilityS
         return this
     }
 
-    fun withContent(contentBuilder: ContentBuilder): BlogBuilder {
-        this.content = contentBuilder.created()
+    fun withContent(content: Content): BlogBuilder {
+        this.content = content
         return this
     }
 
@@ -34,6 +34,6 @@ class BlogBuilder(private val idGenerator: IdGenerator, private val timeUtilityS
     }
 
     fun created(): Blog {
-        return Blog(idGenerator.generate(), title, content, tags, Popularity(), timeUtilityService.currentTime())
+        return Blog(idGenerator.generate(), title, content, Popularity(0), timeUtilityService.currentTime())
     }
 }

@@ -1,13 +1,7 @@
 package domain.aggregates.blog_aggregate.value_objects
 
-abstract class ContentElement {
+abstract class ContentElement
 
-}
+data class TextElement(val text: Text, val style: Style) : ContentElement()
 
-class TextElement(val text: Text, val style: Style): ContentElement() {
-
-}
-
-class ImageElement(val picturePath: Path, val caption: Text): ContentElement() {
-
-}
+data class ImageElement(val picturePath: Path, val caption: Text) : ContentElement()

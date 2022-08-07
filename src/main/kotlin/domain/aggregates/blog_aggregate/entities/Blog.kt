@@ -11,9 +11,9 @@ class Blog(
     override val id: Id,
     val title: Title,
     val content: Content,
-    val tagIds: Collection<Id>,
     val popularity: Popularity,
     val time: Time
 ) : IEntity {
+    private val tagIds = mutableSetOf<Id>()
     fun hasTag(tagId: Id): Boolean = tagIds.contains(tagId)
 }
