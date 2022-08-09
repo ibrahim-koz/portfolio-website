@@ -16,4 +16,8 @@ class Blog(
 ) : IEntity {
     private val tagIds = mutableSetOf<Id>()
     fun hasTag(tagId: Id): Boolean = tagIds.contains(tagId)
+
+    fun add(tagId: Id) = tagIds.add(tagId)
+
+    fun addAll(tagIds: Collection<Id>) = this.tagIds.addAll(tagIds)
 }

@@ -4,10 +4,6 @@ import com.beust.klaxon.Klaxon
 import com.sun.jdi.request.InvalidRequestStateException
 import domain.aggregates.blog_aggregate.value_objects.*
 import domain.aggregates.tag_aggregate.value_objects.Name
-import domain.factories.builders.TagBuilder
-
-import utils.*
-import kotlin.reflect.jvm.internal.impl.types.TypeCheckerState.SupertypesPolicy.None
 
 class AddBlogFactory(
     private val klaxon: Klaxon
@@ -33,26 +29,22 @@ data class AddBlogCommand(
     val content: Collection<ContentElementField>,
     val tags: Collection<TagField>
 ) {
-    fun tagNames(): List<Name> = tags.map { Name(it.name) }
-    fun title(): Title = Title(title)
+    fun titleAsValueObject(): Title = Title(title)
 
-    // Using visitor pattern, we can get rid of the branching to create either TextElement or ImageElement
-    // The solution would be to introduce another field specifies the type of content element in payload.
-    // That way, through reflection we can create the class instance automatically.
-    // The other benefit is that whenever in future two types happen to share the exact same format, it obviates
-    // the problem of writing awkward rules to specify what to create.
-    fun content(): Content =
-        Content().apply { addContentElements(contentElements()) }
+    fun contentAsValueObject(): Content =
+        Content().apply { addContentElements(*contentElements()) }
+
+    fun tagNamesAsValueObject(): List<Name> = tags.map { Name(it.name) }
 
 
-    private fun contentElements(): Collection<ContentElement> =
+    private fun contentElements() =
         content.map {
             when (it.type) {
                 "text" -> TextElement(Text(it.text), Style(it.style))
                 "image" -> ImageElement(Path(it.path), Caption(it.caption))
                 else -> throw InvalidRequestStateException()
             }
-        }
+        }.toTypedArray()
 }
 
 // We're going to encapsulate all the functionality into data class.
