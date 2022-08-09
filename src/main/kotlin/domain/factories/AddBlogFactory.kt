@@ -1,14 +1,13 @@
 package domain.factories
 
 import com.beust.klaxon.Klaxon
-import domain.aggregates.blog_aggregate.value_objects.Content
-import domain.aggregates.blog_aggregate.value_objects.ContentElement
-import domain.aggregates.blog_aggregate.value_objects.TextElement
-import domain.aggregates.blog_aggregate.value_objects.Title
+import com.sun.jdi.request.InvalidRequestStateException
+import domain.aggregates.blog_aggregate.value_objects.*
 import domain.aggregates.tag_aggregate.value_objects.Name
 import domain.factories.builders.TagBuilder
 
 import utils.*
+import kotlin.reflect.jvm.internal.impl.types.TypeCheckerState.SupertypesPolicy.None
 
 class AddBlogFactory(
     private val klaxon: Klaxon
@@ -21,12 +20,13 @@ class AddBlogFactory(
 data class TagField(val name: String)
 
 data class ContentElementField(
-    var type: String,
-    val text: String? = null,
-    val style: String? = null,
-    val path: String? = null,
-    val caption: String? = null
-)
+    val type: String,
+) {
+    lateinit var text: String
+    lateinit var style: String
+    lateinit var path: String
+    lateinit var caption: String
+}
 
 data class AddBlogCommand(
     val title: String,
@@ -47,20 +47,12 @@ data class AddBlogCommand(
 
     private fun contentElements(): Collection<ContentElement> =
         content.map {
-            it.type += "Element"
-            val fields = fieldsOf(it).filterNot { field -> field == "type" }
-            val fieldsToValues = fields.associateWith { field -> getValue(it, field) }.filterNotNullValues()
-            val valueObjects = fieldsToValues.map { (field, value) -> createInstance(getClassPath(field), value) }
-
-            val contentElement = createInstance(
-                getClassPath(it.type),
-                *valueObjects.toTypedArray()
-            ) as ContentElement
-            contentElement
+            when (it.type) {
+                "text" -> TextElement(Text(it.text), Style(it.style))
+                "image" -> ImageElement(Path(it.path), Caption(it.caption))
+                else -> throw InvalidRequestStateException()
+            }
         }
-
-    private fun getClassPath(type: String) =
-        "domain.aggregates.blog_aggregate.value_objects.${type.replaceFirstChar { firstChar -> firstChar.uppercase() }}"
 }
 
 // We're going to encapsulate all the functionality into data class.

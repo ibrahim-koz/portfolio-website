@@ -50,8 +50,14 @@ internal class AddBlogTest {
         val expectedAddBlogCommand = AddBlogCommand(
             "Cool Title",
             listOf(
-                ContentElementField(type = "text", text = "Cool Text", style = "body"),
-                ContentElementField(type = "image", path = "cool_path", caption = "Cool Picture")
+                ContentElementField(type = "text").apply {
+                    text = "Cool Text"
+                    style = "body"
+                },
+                ContentElementField(type = "image").apply {
+                    path = "cool_path"
+                    caption = "Cool Picture"
+                }
             ),
             listOf(TagField("Cool Tag"))
         )

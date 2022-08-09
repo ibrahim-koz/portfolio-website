@@ -10,8 +10,6 @@ import domain.repositories.IBlogRepository
 import domain.repositories.ITagRepository
 import domain.services.GetTagsOrCreateService
 import domain.specifications.BlogAndTagMustBeAssociatedSpecification
-import domain.type_casting_utils.isImageElement
-import domain.type_casting_utils.isTextElement
 
 class AddBlog(
     private val blogAggregateFactory: BlogAggregateFactory,
