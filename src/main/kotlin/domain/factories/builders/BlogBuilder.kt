@@ -23,16 +23,6 @@ class BlogBuilder(private val idGenerator: IdGenerator, private val timeUtilityS
         return this
     }
 
-    fun havingTags(tagId: Id): BlogBuilder {
-        this.tags.add(tagId)
-        return this
-    }
-
-    fun havingTags(tagId: Collection<Id>): BlogBuilder {
-        this.tags.addAll(tagId)
-        return this
-    }
-
     fun created(): Blog {
         return Blog(idGenerator.generate(), title, content, Popularity(0), timeUtilityService.currentTime())
     }

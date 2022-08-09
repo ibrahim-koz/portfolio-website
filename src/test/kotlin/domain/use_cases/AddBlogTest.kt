@@ -11,13 +11,15 @@ import utils.IdGenerator
 import utils.TimeUtilityService
 
 internal class AddBlogTest {
+    private val idGenerator = IdGenerator()
+    private val tagAggregateFactory = TagAggregateFactory(idGenerator)
+    private val mockTagRepository = MockTagRepository()
     private val addBlogFactory = AddBlogFactory(Klaxon())
     private val addBlog = AddBlog(
-        BlogAggregateFactory(IdGenerator(), TimeUtilityService()),
-        TagAggregateFactory(IdGenerator()),
+        BlogAggregateFactory(idGenerator, TimeUtilityService()),
         MockBlogRepository(),
-        MockTagRepository(),
-        GetTagsOrCreateService(),
+        mockTagRepository,
+        GetTagsOrCreateService(tagAggregateFactory, mockTagRepository),
     )
 
     @Test
@@ -47,7 +49,7 @@ internal class AddBlogTest {
             """
         )
 
-//        val addBlogResponse = addBlog.handle(addBlogCommand)
-//        assertNull(addBlogResponse.error)
+        val addBlogResponse = addBlog.handle(addBlogCommand)
+        assertNull(addBlogResponse.error)
     }
 }
