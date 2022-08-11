@@ -20,6 +20,6 @@ internal class BlogAndTagMustBeAssociatedSpecificationTest {
         val tag = tagAggregateFactory.aTag().named(Name("Cool Tag")).created().apply { attachTo(blog.id) }
         blog.add(tag.id)
 
-        assert(BlogAndTagMustBeAssociatedSpecification().isSatisfiedBy(blog, tag))
+        assert(BlogAndTagMustBeAssociatedSpecification().isSatisfiedBy(blog to tag))
     }
 }

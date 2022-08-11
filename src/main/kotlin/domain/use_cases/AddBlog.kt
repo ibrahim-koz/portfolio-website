@@ -43,7 +43,7 @@ class AddBlog(
             }
 
             require(tags.all {
-                BlogAndTagMustBeAssociatedSpecification().isSatisfiedBy(blog, it)
+                BlogAndTagMustBeAssociatedSpecification().isSatisfiedBy(blog to it)
             })
 
             blogRepository.add(blog)

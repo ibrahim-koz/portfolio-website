@@ -1,6 +1,5 @@
 package domain.factories
 
-import domain.aggregates.tag_aggregate.value_objects.Name
 import domain.factories.builders.TagBuilder
 import utils.IdGenerator
 

@@ -11,7 +11,6 @@ import utils.TimeUtilityService
 class BlogBuilder(private val idGenerator: IdGenerator, private val timeUtilityService: TimeUtilityService) {
     private lateinit var title: Title
     private lateinit var content: Content
-    private val tags = mutableListOf<Id>()
 
     fun withTitle(title: Title): BlogBuilder {
         this.title = title

@@ -8,9 +8,8 @@ import domain.aggregates.tag_aggregate.value_objects.Name
 class AddBlogFactory(
     private val klaxon: Klaxon
 ) {
-    fun anAddBlogCommand(string: String): AddBlogCommand {
-        return requireNotNull(klaxon.parse<AddBlogCommand>(string))
-    }
+    fun anAddBlogCommand(string: String): AddBlogCommand =
+        requireNotNull(klaxon.parse<AddBlogCommand>(string))
 }
 
 data class TagField(val name: String)
@@ -46,8 +45,5 @@ data class AddBlogCommand(
             }
         }.toTypedArray()
 }
-
-// We're going to encapsulate all the functionality into data class.
-
 
 class AddBlogResponse(val error: String? = null)

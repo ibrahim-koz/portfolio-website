@@ -50,6 +50,9 @@ internal class AddBlogTest {
         )
 
         val addBlogResponse = addBlog.handle(addBlogCommand)
+
+        // TODO: the following assert clause might be improved further to test
+        //  whether what is expected happens.
         assertNull(addBlogResponse.error)
     }
 }
