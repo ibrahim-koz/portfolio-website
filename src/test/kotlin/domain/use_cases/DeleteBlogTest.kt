@@ -1,9 +1,8 @@
 package domain.use_cases
 
 import com.beust.klaxon.Klaxon
-import domain.factories.AddBlogFactory
 import domain.factories.BlogAggregateFactory
-import domain.factories.DeleteBlogFactory
+import domain.factories.CommandFactory
 import domain.factories.TagAggregateFactory
 import domain.services.GetTagsOrCreateService
 import infrastructure.MockBlogRepository
@@ -18,13 +17,12 @@ import utils.TimeUtilityService
 internal class DeleteBlogTest {
     private val mockBlogRepository = MockBlogRepository()
     private val mockTagRepository = MockTagRepository()
-    private val deleteBlogFactory = DeleteBlogFactory(Klaxon())
+    private val commandFactory = CommandFactory(Klaxon())
     private val deleteBlog = DeleteBlog(
         mockBlogRepository,
         mockTagRepository,
     )
 
-    private val addBlogFactory = AddBlogFactory(Klaxon())
     private val addBlog = AddBlog(
         BlogAggregateFactory(IdGenerator(), TimeUtilityService()),
         mockBlogRepository,
@@ -35,7 +33,7 @@ internal class DeleteBlogTest {
 
     @BeforeEach
     internal fun setUp() {
-        val addBlogCommand = addBlogFactory.anAddBlogCommand(
+        val addBlogCommand = commandFactory.anAddBlogCommand(
             """
             {
                 "title": "Cool Title",
@@ -68,7 +66,7 @@ internal class DeleteBlogTest {
 
     @Test
     internal fun `should delete the blog with the given id`() {
-        val deleteBlogCommand = deleteBlogFactory.aDeleteBlogCommand(
+        val deleteBlogCommand = commandFactory.aDeleteBlogCommand(
             """
             {
                 "id": 0

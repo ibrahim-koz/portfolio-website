@@ -1,9 +1,9 @@
 package domain.use_cases
 
-import domain.factories.DeleteBlogCommand
-import domain.factories.DeleteBlogResponse
+import domain.commands.DeleteBlogCommand
 import domain.repositories.IBlogRepository
 import domain.repositories.ITagRepository
+import domain.responses.DeleteBlogResponse
 import domain.specifications.BlogAndTagMustBeAssociatedSpecification
 import model.Id
 

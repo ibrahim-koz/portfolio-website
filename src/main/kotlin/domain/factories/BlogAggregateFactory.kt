@@ -1,6 +1,6 @@
 package domain.factories
 
-import domain.factories.builders.BlogBuilder
+import domain.builders.BlogBuilder
 import utils.IdGenerator
 import utils.TimeUtilityService
 

@@ -1,16 +1,8 @@
-package domain.factories
+package domain.commands
 
-import com.beust.klaxon.Klaxon
 import com.sun.jdi.request.InvalidRequestStateException
 import domain.aggregates.blog_aggregate.value_objects.*
 import domain.aggregates.tag_aggregate.value_objects.Name
-
-class AddBlogFactory(
-    private val klaxon: Klaxon
-) {
-    fun anAddBlogCommand(string: String): AddBlogCommand =
-        requireNotNull(klaxon.parse<AddBlogCommand>(string))
-}
 
 data class TagField(val name: String)
 
@@ -45,5 +37,3 @@ data class AddBlogCommand(
             }
         }.toTypedArray()
 }
-
-class AddBlogResponse(val error: String? = null)

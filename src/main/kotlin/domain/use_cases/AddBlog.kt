@@ -3,9 +3,11 @@ package domain.use_cases
 import domain.aggregates.blog_aggregate.value_objects.Content
 import domain.aggregates.blog_aggregate.value_objects.Title
 import domain.aggregates.tag_aggregate.value_objects.Name
+import domain.commands.AddBlogCommand
 import domain.factories.*
 import domain.repositories.IBlogRepository
 import domain.repositories.ITagRepository
+import domain.responses.AddBlogResponse
 import domain.services.GetTagsOrCreateService
 import domain.specifications.BlogAndTagMustBeAssociatedSpecification
 

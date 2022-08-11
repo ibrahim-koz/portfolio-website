@@ -14,7 +14,7 @@ internal class AddBlogTest {
     private val idGenerator = IdGenerator()
     private val tagAggregateFactory = TagAggregateFactory(idGenerator)
     private val mockTagRepository = MockTagRepository()
-    private val addBlogFactory = AddBlogFactory(Klaxon())
+    private val commandFactory = CommandFactory(Klaxon())
     private val addBlog = AddBlog(
         BlogAggregateFactory(idGenerator, TimeUtilityService()),
         MockBlogRepository(),
@@ -24,7 +24,7 @@ internal class AddBlogTest {
 
     @Test
     internal fun `should create a new blog`() {
-        val addBlogCommand = addBlogFactory.anAddBlogCommand(
+        val addBlogCommand = commandFactory.anAddBlogCommand(
             """
             {
                 "title": "Cool Title",

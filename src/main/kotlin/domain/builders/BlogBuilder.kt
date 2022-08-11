@@ -1,10 +1,9 @@
-package domain.factories.builders
+package domain.builders
 
 import domain.aggregates.blog_aggregate.entities.Blog
 import domain.aggregates.blog_aggregate.value_objects.Content
 import domain.aggregates.blog_aggregate.value_objects.Popularity
 import domain.aggregates.blog_aggregate.value_objects.Title
-import model.Id
 import utils.IdGenerator
 import utils.TimeUtilityService
 
