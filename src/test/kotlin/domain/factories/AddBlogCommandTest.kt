@@ -3,13 +3,14 @@ package domain.factories
 import com.beust.klaxon.Klaxon
 import domain.aggregates.blog_aggregate.value_objects.*
 import domain.aggregates.tag_aggregate.value_objects.Name
+import domain.commands.AddBlogCommand
+import domain.commands.ContentElementField
+import domain.commands.TagField
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import utils.IdGenerator
-import utils.TimeUtilityService
 
 internal class AddBlogCommandTest {
-    private val addBlogFactory = AddBlogFactory(Klaxon())
+    private val commandFactory = CommandFactory(Klaxon())
 
     @Test
     internal fun `should parse the given payload properly`() {
@@ -28,7 +29,7 @@ internal class AddBlogCommandTest {
             listOf(TagField("Cool Tag"))
         )
 
-        val actualAddBlogCommand = addBlogFactory.anAddBlogCommand(
+        val actualAddBlogCommand = commandFactory.anAddBlogCommand(
             """
             {
                 "title": "Cool Title",
@@ -67,7 +68,7 @@ internal class AddBlogCommandTest {
         }
         val expectedTagNames = listOf(Name("Cool Tag"))
 
-        val addBlogCommand = addBlogFactory.anAddBlogCommand(
+        val addBlogCommand = commandFactory.anAddBlogCommand(
             """
             {
                 "title": "Cool Title",

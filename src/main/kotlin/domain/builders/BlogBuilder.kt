@@ -1,4 +1,4 @@
-package domain.factories.builders
+package domain.builders
 
 import domain.aggregates.blog_aggregate.entities.Blog
 import domain.aggregates.blog_aggregate.value_objects.Content

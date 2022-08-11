@@ -1,4 +1,4 @@
-package domain.factories.builders
+package domain.builders
 
 import domain.aggregates.tag_aggregate.entities.Tag
 import domain.aggregates.tag_aggregate.value_objects.Name
