@@ -12,30 +12,29 @@ class DeleteBlog(
     private val tagRepository: ITagRepository,
 ) {
     fun handle(deleteBlogCommand: DeleteBlogCommand): DeleteBlogResponse {
-        try {
-            val id: Id
+        val id: Id
 
-            with(deleteBlogCommand) {
-                id = idAsValueObject()
-            }
-
-            val blog = blogRepository.get(id)
-
-            val tags = blog.tagIds().map { tagRepository.get(it) }
-
-            tags.forEach {
-                it.detach(blog.id)
-            }
-
-            require(tags.all {
-                BlogAndTagMustBeAssociatedSpecification().not().isSatisfiedBy(blog to it)
-            })
-
-            blogRepository.remove(blog)
-            tagRepository.addAll(tags)
-            return DeleteBlogResponse()
-        } catch (e: Exception) {
-            return DeleteBlogResponse(e.message)
+        with(deleteBlogCommand) {
+            id = idAsValueObject()
         }
+
+        val blog = blogRepository.get(id)
+
+        val tags = blog.tagIds().map { tagRepository.get(it) }
+
+        tags.forEach {
+            it.detach(blog.id)
+        }
+
+        require(tags.all {
+            BlogAndTagMustBeAssociatedSpecification().not().isSatisfiedBy(blog to it)
+        })
+
+        blogRepository.remove(blog)
+        tags.forEach {
+            tagRepository.update(it)
+        }
+
+        return DeleteBlogResponse()
     }
 }

@@ -9,10 +9,10 @@ import model.Id
 
 class Blog(
     override val id: Id,
-    val title: Title,
-    val content: Content,
-    val popularity: Popularity,
-    val time: Time
+    var title: Title,
+    private var content: Content,
+    private var popularity: Popularity,
+    private val time: Time
 ) : IEntity {
     private val tagIds = mutableSetOf<Id>()
 
@@ -23,4 +23,12 @@ class Blog(
     fun addAll(tagIds: Collection<Id>) = this.tagIds.addAll(tagIds)
 
     fun tagIds() = tagIds.toSet()
+
+    fun changeTitle(title: Title) {
+        this.title = title
+    }
+
+    fun changeContent(content: Content) {
+        this.content = content
+    }
 }

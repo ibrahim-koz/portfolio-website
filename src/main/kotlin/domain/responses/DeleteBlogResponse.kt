@@ -1,3 +1,3 @@
 package domain.responses
 
-class DeleteBlogResponse(val error: String? = null)
+class DeleteBlogResponse(val errorMessage: String? = null)

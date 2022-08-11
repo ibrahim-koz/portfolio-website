@@ -7,27 +7,30 @@ import domain.factories.TagAggregateFactory
 import domain.services.GetTagsOrCreateService
 import infrastructure.MockBlogRepository
 import infrastructure.MockTagRepository
+import model.Id
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import utils.IdGenerator
 import utils.TimeUtilityService
+import utils.ignore
 
 
 internal class DeleteBlogTest {
-    private val mockBlogRepository = MockBlogRepository()
-    private val mockTagRepository = MockTagRepository()
+    private val blogRepository = MockBlogRepository()
+    private val tagRepository = MockTagRepository()
     private val commandFactory = CommandFactory(Klaxon())
     private val deleteBlog = DeleteBlog(
-        mockBlogRepository,
-        mockTagRepository,
+        blogRepository,
+        tagRepository,
     )
 
     private val addBlog = AddBlog(
         BlogAggregateFactory(IdGenerator(), TimeUtilityService()),
-        mockBlogRepository,
-        mockTagRepository,
-        GetTagsOrCreateService(TagAggregateFactory(IdGenerator()), mockTagRepository),
+        blogRepository,
+        tagRepository,
+        GetTagsOrCreateService(TagAggregateFactory(IdGenerator()), tagRepository),
     )
 
 
@@ -59,7 +62,7 @@ internal class DeleteBlogTest {
         )
 
         val addBlogResponse = addBlog.handle(addBlogCommand)
-        addBlogResponse.error?.let {
+        addBlogResponse.errorMessage?.let {
             throw Exception("An error has occurred during the setup, with message: $it")
         }
     }
@@ -75,7 +78,7 @@ internal class DeleteBlogTest {
         )
 
 
-        val deleteBlogResponse = deleteBlog.handle(deleteBlogCommand)
-        assertNull(deleteBlogResponse.error)
+        deleteBlog.handle(deleteBlogCommand).ignore()
+        assertThrows<IllegalArgumentException> { blogRepository.get(Id(0)) }
     }
 }

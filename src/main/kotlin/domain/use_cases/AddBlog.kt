@@ -18,41 +18,37 @@ class AddBlog(
     private val getTagsOrCreateService: GetTagsOrCreateService,
 ) {
     fun handle(addBlogCommand: AddBlogCommand): AddBlogResponse {
-        try {
-            val title: Title
-            val content: Content
-            val tagNames: Collection<Name>
+        val title: Title
+        val content: Content
+        val tagNames: Collection<Name>
 
-            with(addBlogCommand) {
-                title = titleAsValueObject()
-                content = contentAsValueObject()
-                tagNames = tagNamesAsValueObject()
-            }
-
-            val tags = getTagsOrCreateService.handle(tagNames)
-
-            val blog = blogAggregateFactory
-                .aBlog()
-                .withTitle(title)
-                .withContent(content)
-                .created()
-                .apply {
-                    addAll(tags.map { it.id })
-                }
-
-            tags.forEach {
-                it.attachTo(blog.id)
-            }
-
-            require(tags.all {
-                BlogAndTagMustBeAssociatedSpecification().isSatisfiedBy(blog to it)
-            })
-
-            blogRepository.add(blog)
-            tagRepository.addAll(tags)
-            return AddBlogResponse()
-        } catch (e: Exception) {
-            return AddBlogResponse(e.message)
+        with(addBlogCommand) {
+            title = titleAsValueObject()
+            content = contentAsValueObject()
+            tagNames = tagNamesAsValueObject()
         }
+
+        val tags = getTagsOrCreateService.handle(tagNames)
+
+        val blog = blogAggregateFactory
+            .aBlog()
+            .withTitle(title)
+            .withContent(content)
+            .created()
+            .apply {
+                addAll(tags.map { it.id })
+            }
+
+        tags.forEach {
+            it.attachTo(blog.id)
+        }
+
+        require(tags.all {
+            BlogAndTagMustBeAssociatedSpecification().isSatisfiedBy(blog to it)
+        })
+
+        blogRepository.add(blog)
+        tagRepository.addAll(tags)
+        return AddBlogResponse()
     }
 }

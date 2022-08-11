@@ -5,21 +5,24 @@ import domain.factories.*
 import domain.services.GetTagsOrCreateService
 import infrastructure.MockBlogRepository
 import infrastructure.MockTagRepository
+import model.Id
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import utils.IdGenerator
 import utils.TimeUtilityService
+import utils.ignore
 
 internal class AddBlogTest {
     private val idGenerator = IdGenerator()
     private val tagAggregateFactory = TagAggregateFactory(idGenerator)
-    private val mockTagRepository = MockTagRepository()
+    private val tagRepository = MockTagRepository()
     private val commandFactory = CommandFactory(Klaxon())
+    private val blogRepository = MockBlogRepository()
     private val addBlog = AddBlog(
         BlogAggregateFactory(idGenerator, TimeUtilityService()),
-        MockBlogRepository(),
-        mockTagRepository,
-        GetTagsOrCreateService(tagAggregateFactory, mockTagRepository),
+        blogRepository,
+        tagRepository,
+        GetTagsOrCreateService(tagAggregateFactory, tagRepository),
     )
 
     @Test
@@ -49,10 +52,7 @@ internal class AddBlogTest {
             """
         )
 
-        val addBlogResponse = addBlog.handle(addBlogCommand)
-
-        // TODO: the following assert clause might be improved further to test
-        //  whether what is expected happens.
-        assertNull(addBlogResponse.error)
+        addBlog.handle(addBlogCommand).ignore()
+        assertDoesNotThrow { blogRepository.get(Id(0)) }
     }
 }

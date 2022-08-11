@@ -1,3 +1,3 @@
 package domain.responses
 
-class AddBlogResponse(val error: String? = null)
+class AddBlogResponse(val errorMessage: String? = null)
