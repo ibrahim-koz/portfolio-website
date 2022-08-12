@@ -2,8 +2,8 @@ package domain.aggregates.blog_aggregate.value_objects
 
 abstract class ContentElement
 
-data class TextElement(val text: Text, val style: Style) : ContentElement()
+data class TextElement(private val text: Text, private val style: Style) : ContentElement()
 
-data class ImageElement(val path: Path, val caption: Caption) : ContentElement()
+data class ImageElement(private val path: Path, private val caption: Caption) : ContentElement()
 
-data class CodeSnippetElement(val text: Text, val language: Language) : ContentElement()
+data class CodeSnippetElement(private val text: Text, private val language: Language) : ContentElement()

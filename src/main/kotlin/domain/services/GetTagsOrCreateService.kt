@@ -21,7 +21,6 @@ class GetTagsOrCreateService(
         val existingTags = existingTagsNames.map { tagRepository.get(it) }
         val absentTags = absentTagsNames.map { tagAggregateFactory.aTag().named(it).created() }
 
-        // TODO: we can use varargs to unify.
         existingTags.forEach {
             tagRepository.update(it)
         }

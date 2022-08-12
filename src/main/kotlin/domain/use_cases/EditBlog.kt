@@ -12,7 +12,6 @@ import domain.specifications.BlogAndTagMustBeAssociatedSpecification
 import model.Id
 import utils.*
 
-// TODO: I decided to not swallow the error for debugging purposes.
 class EditBlog(
     private val blogRepository: IBlogRepository,
     private val tagRepository: ITagRepository,
