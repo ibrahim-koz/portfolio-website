@@ -7,6 +7,7 @@ import domain.factories.TagAggregateFactory
 import domain.services.GetTagsOrCreateService
 import infrastructure.MockBlogRepository
 import infrastructure.MockTagRepository
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import utils.IdGenerator
@@ -86,7 +87,7 @@ internal class ListBlogsTest {
     @Test
     internal fun `should list all blogs`() {
         val blogs = listBlogs.handle()
-        assert(blogs.size == 2)
+        assertEquals(blogs.size, 2)
     }
 }
 

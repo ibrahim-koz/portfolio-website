@@ -1,10 +1,10 @@
 package domain.use_cases
 
-class ReadBlog {
-   fun handle(readBlogCommand: ReadBlogCommand): ReadBlogResponse {
-        TODO("Not yet implemented")
-    }
-}
+import domain.commands.ReadBlogCommand
+import domain.repositories.IBlogRepository
 
-class ReadBlogCommand
-class ReadBlogResponse
+class ReadBlog(
+    private val blogRepository: IBlogRepository
+) {
+   fun handle(readBlogCommand: ReadBlogCommand) = blogRepository.get(readBlogCommand.idAsValueObject())
+}
