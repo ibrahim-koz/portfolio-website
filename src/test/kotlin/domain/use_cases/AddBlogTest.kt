@@ -50,7 +50,8 @@ internal class AddBlogTest {
             """
         )
 
-        addBlog.tryHandle(addBlogCommand)
+        assertDoesNotThrow { addBlog.handle(addBlogCommand) }
         assertDoesNotThrow { blogRepository.get(Id(0)) }
+        assertDoesNotThrow { tagRepository.get(Id(0))}
     }
 }

@@ -56,7 +56,7 @@ internal class EditBlogTest {
             """
         )
 
-        addBlog.tryHandle(addBlogCommand)
+        addBlog.handle(addBlogCommand)
     }
 
     @Test
@@ -87,7 +87,7 @@ internal class EditBlogTest {
             """
         )
 
-        editBlog.tryHandle(editBlogCommand)
+        editBlog.handle(editBlogCommand)
         val blog = blogRepository.get(Id(0))
         assertEquals(Title("Edited Title"), blog.title)
     }

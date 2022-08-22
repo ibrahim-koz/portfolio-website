@@ -10,6 +10,7 @@ import infrastructure.MockTagRepository
 import model.Id
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import utils.IdGenerator
 import utils.TimeUtilityService
@@ -59,7 +60,7 @@ internal class DeleteBlogTest {
             """
         )
 
-        addBlog.tryHandle(addBlogCommand)
+        addBlog.handle(addBlogCommand)
     }
 
     @Test
@@ -73,7 +74,7 @@ internal class DeleteBlogTest {
         )
 
 
-        deleteBlog.tryHandle(deleteBlogCommand)
+        assertDoesNotThrow { deleteBlog.handle(deleteBlogCommand) }
         assertThrows<IllegalArgumentException> { blogRepository.get(Id(0)) }
     }
 }

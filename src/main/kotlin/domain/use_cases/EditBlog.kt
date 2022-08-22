@@ -25,8 +25,7 @@ class EditBlog(
             throw e
         }
     }
-
-    private fun handle(editBlogCommand: EditBlogCommand) {
+    fun handle(editBlogCommand: EditBlogCommand) {
         val id: Id
         val title: Title?
         val content: Content?

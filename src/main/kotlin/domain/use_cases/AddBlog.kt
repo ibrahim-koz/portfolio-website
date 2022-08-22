@@ -17,16 +17,7 @@ class AddBlog(
     private val tagRepository: ITagRepository,
     private val getTagsOrCreateService: GetTagsOrCreateService,
 ) {
-    fun tryHandle(addBlogCommand: AddBlogCommand) {
-        try {
-            handle(addBlogCommand)
-        } catch (e: Exception) {
-            recover()
-            throw e
-        }
-    }
-
-    private fun handle(addBlogCommand: AddBlogCommand) {
+    fun handle(addBlogCommand: AddBlogCommand) {
         val title: Title
         val content: Content
         val tagNames: Collection<Name>
@@ -58,9 +49,5 @@ class AddBlog(
 
         blogRepository.add(blog)
         tagRepository.addAll(tags)
-    }
-
-    private fun recover() {
-
     }
 }

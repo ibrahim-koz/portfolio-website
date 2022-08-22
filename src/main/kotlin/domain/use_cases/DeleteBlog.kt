@@ -1,6 +1,7 @@
 package domain.use_cases
 
 import domain.commands.DeleteBlogCommand
+import domain.exceptions.BlogNotFoundException
 import domain.repositories.IBlogRepository
 import domain.repositories.ITagRepository
 import domain.specifications.BlogAndTagMustBeAssociatedSpecification
@@ -11,16 +12,7 @@ class DeleteBlog(
     private val blogRepository: IBlogRepository,
     private val tagRepository: ITagRepository,
 ) {
-    fun tryHandle(deleteBlogCommand: DeleteBlogCommand) {
-        try {
-            handle(deleteBlogCommand)
-        } catch (e: Exception) {
-            recover()
-            throw e
-        }
-    }
-
-    private fun handle(deleteBlogCommand: DeleteBlogCommand) {
+    fun handle(deleteBlogCommand: DeleteBlogCommand) {
         val id: Id
 
         with(deleteBlogCommand) {
@@ -43,9 +35,5 @@ class DeleteBlog(
         tags.forEach {
             tagRepository.update(it)
         }
-    }
-
-    private fun recover() {
-
     }
 }
