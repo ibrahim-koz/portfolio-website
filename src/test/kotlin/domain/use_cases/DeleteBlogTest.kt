@@ -1,6 +1,7 @@
 package domain.use_cases
 
 import com.beust.klaxon.Klaxon
+import domain.exceptions.BlogNotFoundException
 import domain.factories.BlogAggregateFactory
 import domain.factories.CommandFactory
 import domain.factories.TagAggregateFactory
@@ -75,6 +76,6 @@ internal class DeleteBlogTest {
 
 
         assertDoesNotThrow { deleteBlog.handle(deleteBlogCommand) }
-        assertThrows<IllegalArgumentException> { blogRepository.get(Id(0)) }
+        assertThrows<BlogNotFoundException> { blogRepository.get(Id(0)) }
     }
 }

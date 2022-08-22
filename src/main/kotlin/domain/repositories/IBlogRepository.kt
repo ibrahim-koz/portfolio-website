@@ -6,6 +6,8 @@ import model.Id
 interface IBlogRepository {
     fun get(id: Id): Blog
 
+    fun getAll(): Collection<Blog>
+
     fun add(blog: Blog)
 
     fun remove(blog: Blog)

@@ -9,7 +9,6 @@ import domain.repositories.IBlogRepository
 import domain.repositories.ITagRepository
 import domain.services.GetTagsOrCreateService
 import domain.specifications.BlogAndTagMustBeAssociatedSpecification
-import java.lang.Exception
 
 class AddBlog(
     private val blogAggregateFactory: BlogAggregateFactory,

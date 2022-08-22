@@ -1,11 +1,10 @@
 package domain.use_cases
 
-class ListBlogs {
+import domain.aggregates.blog_aggregate.entities.Blog
+import domain.repositories.IBlogRepository
 
-    fun handle(listBlogsCommand: ListBlogsCommand): ListBlogsResponse {
-        TODO("Not yet implemented")
-    }
+class ListBlogs(
+    private val blogRepository: IBlogRepository,
+) {
+    fun handle(): Collection<Blog> = blogRepository.getAll()
 }
-
-class ListBlogsCommand
-class ListBlogsResponse

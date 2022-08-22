@@ -2,30 +2,39 @@ package infrastructure
 
 import domain.aggregates.tag_aggregate.entities.Tag
 import domain.aggregates.tag_aggregate.value_objects.Name
+import domain.exceptions.TagNotFoundException
 import domain.repositories.ITagRepository
 import model.Id
-import utils.requireNull
 
 class MockTagRepository : ITagRepository {
     private val items = mutableMapOf<Id, Tag>()
 
-    override fun get(id: Id): Tag = requireNotNull(items[id])
-    override fun get(name: Name): Tag = requireNotNull(items.values.first { it.name == name })
+    override fun get(id: Id): Tag {
+        items[id]?.let { return it }
+        throw TagNotFoundException()
+    }
+
+    override fun get(name: Name): Tag {
+        try {
+            return items.values.first { it.name == name }
+        } catch (e: NoSuchElementException) {
+            throw TagNotFoundException()
+        }
+    }
 
     override fun add(tag: Tag) {
-        requireNull(items[tag.id])
         items[tag.id] = tag
     }
 
     override fun addAll(tags: Collection<Tag>) = items.putAll(tags.associateBy { it.id })
 
     override fun remove(tag: Tag) {
-        requireNotNull(items[tag.id])
+        if (!items.contains(tag.id)) throw TagNotFoundException()
         items.remove(tag.id)
     }
 
     override fun update(tag: Tag) {
-        requireNotNull(items[tag.id])
+        if (!items.contains(tag.id)) throw TagNotFoundException()
         items[tag.id] = tag
     }
 

@@ -2,6 +2,7 @@ package domain.use_cases
 
 import com.beust.klaxon.Klaxon
 import domain.aggregates.blog_aggregate.value_objects.Title
+import domain.exceptions.BlogNotFoundException
 import domain.factories.BlogAggregateFactory
 import domain.factories.CommandFactory
 import domain.factories.TagAggregateFactory
@@ -12,6 +13,7 @@ import model.Id
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import utils.IdGenerator
 import utils.TimeUtilityService
 
@@ -90,5 +92,36 @@ internal class EditBlogTest {
         editBlog.handle(editBlogCommand)
         val blog = blogRepository.get(Id(0))
         assertEquals(Title("Edited Title"), blog.title)
+    }
+
+    @Test
+    internal fun `cannot achieve because the given id does not belong to any tag`() {
+        val editBlogCommand = commandFactory.anEditBlogCommand(
+            """
+            {
+                "id": 1,
+                "title": "Edited Title",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Cooler Text",
+                        "style": "quote"
+                    },
+                    {
+                        "type": "codeSnippet"
+                        "body": "console.log(\"hello\")", 
+                        "language": "JavaScript"
+                    }
+                ],
+                "tags": [
+                    {
+                        "name": "Way Cooler Tag"
+                    }
+                ]
+            }
+            """
+        )
+
+        assertThrows<BlogNotFoundException> { editBlog.handle(editBlogCommand) }
     }
 }

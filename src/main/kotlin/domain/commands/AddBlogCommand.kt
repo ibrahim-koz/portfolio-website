@@ -22,6 +22,7 @@ data class AddBlogCommand(
             when (it.type) {
                 "text" -> TextElement(Text(it.text), Style(it.style))
                 "image" -> ImageElement(Path(it.path), Caption(it.caption))
+                "codeSnippet" -> CodeSnippetElement(Text(it.body), Language(it.language))
                 else -> throw InvalidRequestStateException()
             }
         }.toTypedArray()
