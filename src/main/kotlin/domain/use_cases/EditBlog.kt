@@ -6,24 +6,31 @@ import domain.aggregates.tag_aggregate.value_objects.Name
 import domain.commands.EditBlogCommand
 import domain.repositories.IBlogRepository
 import domain.repositories.ITagRepository
-import domain.responses.EditBlogResponse
 import domain.services.GetTagsOrCreateService
 import domain.specifications.BlogAndTagMustBeAssociatedSpecification
 import model.Id
 import utils.*
+import java.lang.Exception
 
 class EditBlog(
     private val blogRepository: IBlogRepository,
     private val tagRepository: ITagRepository,
     private val getTagsOrCreateService: GetTagsOrCreateService,
 ) {
+    fun tryHandle(editBlogCommand: EditBlogCommand) {
+        try {
+            handle(editBlogCommand)
+        } catch (e: Exception) {
+            recover()
+            throw e
+        }
+    }
 
-    fun handle(editBlogCommand: EditBlogCommand): EditBlogResponse {
+    private fun handle(editBlogCommand: EditBlogCommand) {
         val id: Id
         val title: Title?
         val content: Content?
         val tagNames: Collection<Name>?
-
 
         with(editBlogCommand) {
             id = idAsValueObject()
@@ -66,7 +73,6 @@ class EditBlog(
 
         require(tagsToAttach.all {
             BlogAndTagMustBeAssociatedSpecification().isSatisfiedBy(blog to it)
-
         })
 
         require(tagsToDetach.all {
@@ -78,7 +84,9 @@ class EditBlog(
         previousTags.forEach {
             tagRepository.update(it)
         }
+    }
 
-        return EditBlogResponse()
+    private fun recover() {
+
     }
 }

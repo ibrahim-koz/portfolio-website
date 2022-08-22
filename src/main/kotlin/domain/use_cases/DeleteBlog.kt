@@ -3,15 +3,24 @@ package domain.use_cases
 import domain.commands.DeleteBlogCommand
 import domain.repositories.IBlogRepository
 import domain.repositories.ITagRepository
-import domain.responses.DeleteBlogResponse
 import domain.specifications.BlogAndTagMustBeAssociatedSpecification
 import model.Id
+import java.lang.Exception
 
 class DeleteBlog(
     private val blogRepository: IBlogRepository,
     private val tagRepository: ITagRepository,
 ) {
-    fun handle(deleteBlogCommand: DeleteBlogCommand): DeleteBlogResponse {
+    fun tryHandle(deleteBlogCommand: DeleteBlogCommand) {
+        try {
+            handle(deleteBlogCommand)
+        } catch (e: Exception) {
+            recover()
+            throw e
+        }
+    }
+
+    private fun handle(deleteBlogCommand: DeleteBlogCommand) {
         val id: Id
 
         with(deleteBlogCommand) {
@@ -34,7 +43,9 @@ class DeleteBlog(
         tags.forEach {
             tagRepository.update(it)
         }
+    }
 
-        return DeleteBlogResponse()
+    private fun recover() {
+
     }
 }

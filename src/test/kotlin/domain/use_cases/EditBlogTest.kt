@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import utils.IdGenerator
 import utils.TimeUtilityService
-import utils.ignore
 
 internal class EditBlogTest {
     private val blogRepository = MockBlogRepository()
@@ -57,10 +56,7 @@ internal class EditBlogTest {
             """
         )
 
-        val addBlogResponse = addBlog.handle(addBlogCommand)
-        addBlogResponse.errorMessage?.let {
-            throw Exception("An error has occurred during the setup, with message: $it")
-        }
+        addBlog.tryHandle(addBlogCommand)
     }
 
     @Test
@@ -91,7 +87,7 @@ internal class EditBlogTest {
             """
         )
 
-        editBlog.handle(editBlogCommand).ignore()
+        editBlog.tryHandle(editBlogCommand)
         val blog = blogRepository.get(Id(0))
         assertEquals(Title("Edited Title"), blog.title)
     }

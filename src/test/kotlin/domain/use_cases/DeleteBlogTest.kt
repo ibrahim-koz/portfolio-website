@@ -8,13 +8,11 @@ import domain.services.GetTagsOrCreateService
 import infrastructure.MockBlogRepository
 import infrastructure.MockTagRepository
 import model.Id
-import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import utils.IdGenerator
 import utils.TimeUtilityService
-import utils.ignore
 
 
 internal class DeleteBlogTest {
@@ -61,10 +59,7 @@ internal class DeleteBlogTest {
             """
         )
 
-        val addBlogResponse = addBlog.handle(addBlogCommand)
-        addBlogResponse.errorMessage?.let {
-            throw Exception("An error has occurred during the setup, with message: $it")
-        }
+        addBlog.tryHandle(addBlogCommand)
     }
 
     @Test
@@ -78,7 +73,7 @@ internal class DeleteBlogTest {
         )
 
 
-        deleteBlog.handle(deleteBlogCommand).ignore()
+        deleteBlog.tryHandle(deleteBlogCommand)
         assertThrows<IllegalArgumentException> { blogRepository.get(Id(0)) }
     }
 }

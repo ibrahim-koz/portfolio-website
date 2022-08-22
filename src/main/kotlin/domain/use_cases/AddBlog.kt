@@ -7,9 +7,9 @@ import domain.commands.AddBlogCommand
 import domain.factories.*
 import domain.repositories.IBlogRepository
 import domain.repositories.ITagRepository
-import domain.responses.AddBlogResponse
 import domain.services.GetTagsOrCreateService
 import domain.specifications.BlogAndTagMustBeAssociatedSpecification
+import java.lang.Exception
 
 class AddBlog(
     private val blogAggregateFactory: BlogAggregateFactory,
@@ -17,7 +17,16 @@ class AddBlog(
     private val tagRepository: ITagRepository,
     private val getTagsOrCreateService: GetTagsOrCreateService,
 ) {
-    fun handle(addBlogCommand: AddBlogCommand): AddBlogResponse {
+    fun tryHandle(addBlogCommand: AddBlogCommand) {
+        try {
+            handle(addBlogCommand)
+        } catch (e: Exception) {
+            recover()
+            throw e
+        }
+    }
+
+    private fun handle(addBlogCommand: AddBlogCommand) {
         val title: Title
         val content: Content
         val tagNames: Collection<Name>
@@ -49,6 +58,9 @@ class AddBlog(
 
         blogRepository.add(blog)
         tagRepository.addAll(tags)
-        return AddBlogResponse()
+    }
+
+    private fun recover() {
+
     }
 }

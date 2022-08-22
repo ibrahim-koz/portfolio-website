@@ -10,16 +10,14 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import utils.IdGenerator
 import utils.TimeUtilityService
-import utils.ignore
 
 internal class AddBlogTest {
-    private val idGenerator = IdGenerator()
-    private val tagAggregateFactory = TagAggregateFactory(idGenerator)
+    private val tagAggregateFactory = TagAggregateFactory(IdGenerator())
     private val tagRepository = MockTagRepository()
     private val commandFactory = CommandFactory(Klaxon())
     private val blogRepository = MockBlogRepository()
     private val addBlog = AddBlog(
-        BlogAggregateFactory(idGenerator, TimeUtilityService()),
+        BlogAggregateFactory(IdGenerator(), TimeUtilityService()),
         blogRepository,
         tagRepository,
         GetTagsOrCreateService(tagAggregateFactory, tagRepository),
@@ -52,7 +50,7 @@ internal class AddBlogTest {
             """
         )
 
-        addBlog.handle(addBlogCommand).ignore()
+        addBlog.tryHandle(addBlogCommand)
         assertDoesNotThrow { blogRepository.get(Id(0)) }
     }
 }
